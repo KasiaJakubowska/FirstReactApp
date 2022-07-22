@@ -4,6 +4,9 @@ import Header from './components/Header/Header';
 import Menu from './components/Menu/Menu';
 import Hotels from './components/Hotels/Hotels';
 import LoadingIcon from './components/UI/LoadingIcon/LoadingIcon';
+import Searchbar from './components/UI/Searchbar/Searchbar';
+import Layout from './components/Layout/Layout';
+import Footer from './components/Footer/Footer';
 
 class App extends Component { 
   hotels = [
@@ -48,14 +51,22 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <Header onSearch={term => this.searchHandler(term)}/>
-        <Menu />
-        {this.state.loading 
-          ? <LoadingIcon />
-          : <Hotels hotels={this.state.hotels} />
+      <Layout
+        header={
+          <Header>
+            <Searchbar onSearch={term => this.searchHandler(term)} />
+          </Header>
         }
-      </div>
+        menu={<Menu />}
+        content={
+          this.state.loading 
+            ? <LoadingIcon />
+            : <Hotels hotels={this.state.hotels} />
+        }
+        footer={
+          <Footer />
+        }
+      />
     );
   }
 }

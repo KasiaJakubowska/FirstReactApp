@@ -9,7 +9,6 @@ function Searchbar(props) {
   const [term, setTerm] = useState('');
 
   const search = () => {
-    // console.log('szukaj!', term);
     props.onSearch(term);
   }
   const onKeyDownHandler = e => {
@@ -38,4 +37,4 @@ function Searchbar(props) {
 
 Searchbar.propTypes = propTypes;
 
-export default Searchbar;
+export default Searchbar; 
