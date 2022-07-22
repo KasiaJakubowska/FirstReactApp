@@ -1,0 +1,22 @@
+.hotel {
+	background-color: gainsboro;
+}
+
+.img {
+	width: 100%;
+	height: auto;
+}
+.title {
+	font-weight: bold;
+	font-size: 1.2rem;
+	margin-bottom: 0;
+}
+.city {
+	font-weight: bold;
+}
+.description {
+	color: grey;
+	margin-top: 10px;
+	font-size: 0.88rem;
+	margin-bottom: 0;
+}
