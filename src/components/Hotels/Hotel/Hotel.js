@@ -26,10 +26,8 @@ function Hotel(props) {
 					</div>
 
 					<div className="col-12">
-						<p className={styles.description}>
-							{props.description}
-						</p>
-						<a href="#" className="btn btn-primary float-end px-5">
+						<p className={styles.description}>{props.description}</p>
+						<a href="#" className={`btn btn-${props.theme} float-end px-5`}>
 							Pokaż
 						</a>
 					</div>
