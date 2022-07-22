@@ -1,19 +1,19 @@
-.menu{
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    text-align: left;
+.menu {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	text-align: left;
 }
-
-a{
-    text-decoration: none;
+a {
+	text-decoration: none;
 }
-
-.menuItem{
-    display: inline-block;
-    
+.menuItem {
+	display: inline-block;
+	margin-right: 15px;
 }
-.menuContainer{
-    border: 1px solid #cdcdcd;
-    margin: 10px 0;
+.menuItem a {
+	color: #6c757d;
+}
+.menuContainer {
+	margin: 10px 0;
 }
