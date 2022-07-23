@@ -9,6 +9,7 @@ const buttonStyles = {
 
 export default function ThemeButton(props) {
 	const theme = useContext(ThemeContext);
+
 	return (
 		<button style={buttonStyles} onClick={theme.changeTheme}>
 			<svg

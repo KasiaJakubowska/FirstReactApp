@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Header from "./components/Header/Header";
 import Menu from "./components/Menu/Menu";
@@ -11,104 +11,79 @@ import ThemeButton from "./components/UI/ThemeButton/ThemeButton";
 import ThemeContext from "./context/themeContext";
 import AuthContext from "./context/authContext";
 
-class App extends Component {
-	hotels = [
-		{
-			id: 1,
-			name: "Pod akacjami",
-			city: "Warszawa",
-			rating: 8.3,
-			description:
-				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque consequat id lorem vitae accumsan.",
-			image: "",
-		},
-		{
-			id: 2,
-			name: "Dębowy",
-			city: "Lublin",
-			rating: 8.8,
-			description:
-				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque consequat id lorem vitae accumsan.",
-			image: "",
-		},
-	];
-	state = {
-		hotels: [],
-		loading: true,
-		theme: "danger",
-		isAuthenticated: false,
-	};
+const backendHotels = [
+	{
+		id: 1,
+		name: "Pod akacjami",
+		city: "Warszawa",
+		rating: 8.3,
+		description:
+			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque consequat id lorem vitae accumsan.",
+		image: "",
+	},
+	{
+		id: 2,
+		name: "Dębowy",
+		city: "Lublin",
+		rating: 8.8,
+		description:
+			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque consequat id lorem vitae accumsan.",
+		image: "",
+	},
+];
 
-	searchHandler(term) {
-		const hotels = [...this.hotels].filter((x) =>
+function App() {
+	const [hotels, setHotels] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const [theme, setTheme] = useState("danger");
+	const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+	const changeTheme = () => {
+		const newTheme = theme === "primary" ? "danger" : "primary";
+		setTheme(newTheme);
+	};
+	const searchHandler = (term) => {
+		const newHotels = [...backendHotels].filter((x) =>
 			x.name.toLowerCase().includes(term.toLowerCase())
 		);
-		this.setState({ hotels });
-	}
+		setHotels(newHotels);
+	};
 
-	componentDidMount() {
+	useEffect(() => {
 		setTimeout(() => {
-			this.setState({
-				hotels: this.hotels,
-				loading: false,
-			});
+			setHotels(backendHotels);
+			setLoading(false);
 		}, 1000);
-	}
+	}, []);
 
-	changeTheme = () => {
-		const newTheme = this.state.theme === "primary" ? "danger" : "primary";
-		this.setState({ theme: newTheme });
-	};
+	const header = (
+		<Header>
+			<Searchbar onSearch={(term) => searchHandler(term)} />
+			<ThemeButton />
+		</Header>
+	);
+	const content = loading ? <LoadingIcon /> : <Hotels hotels={hotels} />;
+	const menu = <Menu />;
+	const footer = <Footer />;
 
-	login = (e) => {
-		e.preventDefault();
-		this.setState({ isAuthenticated: true });
-	};
-
-	logout = (e) => {
-		e.preventDefault();
-		this.setState({ isAuthenticated: false });
-	};
-
-	render() {
-		const header = (
-			<Header>
-				<Searchbar onSearch={(term) => this.searchHandler(term)} />
-				<ThemeButton />
-			</Header>
-		);
-		const content = this.state.loading ? (
-			<LoadingIcon />
-		) : (
-			<Hotels hotels={this.state.hotels} />
-		);
-		const menu = <Menu />;
-		const footer = <Footer />;
-
-		return (
-			<AuthContext.Provider
+	return (
+		<AuthContext.Provider
+			value={{
+				isAuthenticated: isAuthenticated,
+				login: () => setIsAuthenticated(true),
+				logout: () => setIsAuthenticated(false),
+			}}
+		>
+			<ThemeContext.Provider
 				value={{
-					isAuthenticated: this.state.isAuthenticated,
-					login: this.login,
-					logout: this.logout,
+					color: theme,
+					changeTheme: changeTheme,
 				}}
 			>
-				<ThemeContext.Provider
-					value={{
-						color: this.state.theme,
-						changeTheme: this.changeTheme,
-					}}
-				>
-					<Layout
-						header={header}
-						menu={menu}
-						content={content}
-						footer={footer}
-					/>
-				</ThemeContext.Provider>
-			</AuthContext.Provider>
-		);
-	}
+				<Layout header={header} menu={menu} content={content} footer={footer} />
+			</ThemeContext.Provider>
+		</AuthContext.Provider>
+	);
 }
 
 export default App;

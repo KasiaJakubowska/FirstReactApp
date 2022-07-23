@@ -5,6 +5,15 @@ import AuthContext from "../../context/authContext";
 function Menu() {
 	const auth = useContext(AuthContext);
 
+	const login = (e) => {
+		e.preventDefault();
+		auth.login();
+	};
+	const logout = (e) => {
+		e.preventDefault();
+		auth.logout();
+	};
+
 	return (
 		<div className={`${style.menuContainer} breadcrumb`}>
 			<ul className={style.menu}>
@@ -13,13 +22,13 @@ function Menu() {
 				</li>
 				{auth.isAuthenticated ? (
 					<li className={style.menuItem}>
-						<a href="#" onClick={auth.logout}>
+						<a href="#" onClick={logout}>
 							Wyloguj
 						</a>
 					</li>
 				) : (
 					<li className={style.menuItem}>
-						<a href="#" onClick={auth.login}>
+						<a href="#" onClick={login}>
 							Zaloguj
 						</a>
 					</li>

@@ -1,10 +1,20 @@
 .header {
+	position: relative;
 	height: 50px;
-	background-color: #cdcdcd;
-	background: url(../../assets/images/header.jpg) center;
-	background-size: cover;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	padding: 80px 15px;
+	overflow: hidden;
+}
+.headerImage {
+	position: absolute;
+	background-color: #cdcdcd;
+	background: url(../../assets/images/header.jpg) center;
+	background-size: 110%;
+	top: -5%;
+	bottom: -5%;
+	left: -5%;
+	right: -5%;
+	z-index: -1;
 }

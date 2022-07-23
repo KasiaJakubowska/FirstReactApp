@@ -37,7 +37,9 @@ function Hotel(props) {
 					</div>
 
 					<div className="col-12">
-						<p className={styles.description}>{props.description}</p>
+						<p className={styles.description}>
+						 {props.description}
+						</p>
 					</div>
 				</div>
 			</div>
