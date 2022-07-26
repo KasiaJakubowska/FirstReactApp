@@ -36,11 +36,18 @@ function Menu() {
 						</li>
 					</>
 				) : (
-					<li className={style.menuItem}>
-						<a href="#" onClick={login}>
-							Zaloguj
-						</a>
-					</li>
+					<>
+						<li className={style.menuItem}>
+							<NavLink activeClassName={style.menuItemActive} to="/rejstracja">
+								Zarejestruj
+							</NavLink>
+						</li>
+						<li className={style.menuItem}>
+							<a href="#" onClick={login}>
+								Zaloguj
+							</a>
+						</li>
+					</>
 				)}
 			</ul>
 		</div>
