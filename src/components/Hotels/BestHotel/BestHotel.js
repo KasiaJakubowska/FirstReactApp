@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import { Link } from "react-router-dom";
 
@@ -7,11 +7,11 @@ const BestHotel = (props) => {
 
 	const hotel = props.getHotel();
 	const endTime = moment().add(23, "minutes").add(34, "seconds");
-	let interval = null;
+	let interval = useRef(null);
 
 	// componentDidMount()
 	useEffect(() => {
-		interval = setInterval(() => {
+		interval.current = setInterval(() => {
 			const leftTime = -moment().diff(endTime) / 1000;
 			const minutes = Math.floor(leftTime / 60);
 			const seconds = Math.floor(leftTime % 60);
@@ -20,9 +20,9 @@ const BestHotel = (props) => {
 
 		// componentWillUnmount()
 		return () => {
-			clearInterval(interval);
+			clearInterval(interval.current);
 		};
-	}, []);
+	}, [endTime]);
 
 	return (
 		<div className="card bg-success text-white">

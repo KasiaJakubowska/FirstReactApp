@@ -2,8 +2,13 @@ import { useState } from "react";
 import LoadingButton from "../../../components/UI/LoadingButton/LoadingButton";
 import { validate } from "../../../helpers/validations";
 import Input from "../../../components/Input/Input";
+import axios from "../../../axios-auth";
+import useAuth from "../../../hooks/useAuth";
+import { useHistory } from "react-router-dom";
 
 export default function Register(props) {
+	const history = useHistory();
+	const [auth, setAuth] = useAuth();
 	const [loading, setLoading] = useState(false);
 	const [form, setForm] = useState({
 		email: {
@@ -19,17 +24,34 @@ export default function Register(props) {
 			rules: ["required"],
 		},
 	});
+	const [error, setError] = useState("");
 	const valid = !Object.values(form)
 		.map((input) => input.error)
 		.filter((error) => error).length;
 
-	const submit = (e) => {
+	const submit = async (e) => {
 		e.preventDefault();
 		setLoading(true);
 
-		setTimeout(() => {
-			setLoading(false);
-		}, 500);
+		try {
+			const res = await axios.post("accounts:signUp", {
+				email: form.email.value,
+				password: form.password.value,
+				returnSecureToken: true,
+			});
+
+			setAuth({
+				email: res.data.email,
+				token: res.data.idToken,
+				userId: res.data.localId,
+			});
+			history.push("/");
+		} catch (ex) {
+			setError(ex.response.data.error.message);
+			console.log(ex.response);
+		}
+
+		setLoading(false);
 	};
 
 	const changeHandler = (value, fieldName) => {
@@ -45,6 +67,10 @@ export default function Register(props) {
 			},
 		});
 	};
+
+	if (auth) {
+		history.push("/");
+	}
 
 	return (
 		<div className="card">
@@ -70,6 +96,8 @@ export default function Register(props) {
 						error={form.password.error}
 						showError={form.password.showError}
 					/>
+
+					{error ? <div className="alert alert-danger">{error}</div> : null}
 
 					<div className="text-right">
 						<LoadingButton
